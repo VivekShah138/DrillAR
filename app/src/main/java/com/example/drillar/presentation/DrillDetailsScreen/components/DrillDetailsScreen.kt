@@ -11,11 +11,13 @@ import com.example.drillar.ui.theme.DrillARTheme
 import org.koin.compose.viewmodel.koinViewModel
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -43,66 +45,146 @@ fun DrillDetailsRoot(
     )
 }
 
+//@Composable
+//fun DrillDetailsScreen(
+//    state: DrillDetailsStates,
+//    onEvent: (DrillDetailsEvents) -> Unit,
+//    navigateBackToDrillList: () -> Unit,
+//) {
+//
+//    val context = LocalContext.current
+//
+//    Scaffold(
+//        topBar = {
+//
+//            AppTopBar(
+//                title = state.name,
+//                showBackButton = true,
+//                onBackClick = navigateBackToDrillList
+//            )
+//
+//        }
+//    ) { padding ->
+//        Column(
+//            modifier = Modifier
+//                .padding(padding)
+//                .padding(16.dp)
+//                .fillMaxSize()
+//        ) {
+//            if (state.imageResId != 0) {
+//                Image(
+//                    painter = painterResource(id = state.imageResId),
+//                    contentDescription = state.name,
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(200.dp)
+//                        .clip(RoundedCornerShape(8.dp)),
+//                    contentScale = ContentScale.Crop
+//                )
+//            }
+//
+//            Spacer(modifier = Modifier.height(16.dp))
+//
+//            Text("Description", fontWeight = FontWeight.Bold)
+//            Text(state.description)
+//
+//            Spacer(modifier = Modifier.height(12.dp))
+//
+//            Text("Tips", fontWeight = FontWeight.Bold)
+//            state.tips.forEach { tip ->
+//                Text("• $tip")
+//            }
+//
+//            Spacer(modifier = Modifier.height(24.dp))
+//
+//            Button(
+//                onClick = {
+//                    Toast.makeText(context, "AR Screen Coming Soon", Toast.LENGTH_SHORT).show()
+//                },
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                Text("Start AR Drill")
+//            }
+//        }
+//    }
+//}
+
 @Composable
 fun DrillDetailsScreen(
     state: DrillDetailsStates,
     onEvent: (DrillDetailsEvents) -> Unit,
     navigateBackToDrillList: () -> Unit,
 ) {
-
     val context = LocalContext.current
 
     Scaffold(
         topBar = {
-
             AppTopBar(
                 title = state.name,
                 showBackButton = true,
                 onBackClick = navigateBackToDrillList
             )
-
         }
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .padding(16.dp)
-                .fillMaxSize()
+        Box(modifier = Modifier
+            .padding(padding)
+            .fillMaxSize()
         ) {
-            Image(
-                painter = painterResource(id = state.imageResId),
-                contentDescription = state.name,
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(8.dp))
-            )
+                    .padding(16.dp)
+                    .fillMaxSize()
+            ) {
+                if (state.imageResId != 0) {
+                    Image(
+                        painter = painterResource(id = state.imageResId),
+                        contentDescription = state.name,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Text("Description", fontWeight = FontWeight.Bold)
-            Text(state.description)
+                Text("Description", fontWeight = FontWeight.Bold)
+                Text(state.description)
 
-            Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-            Text("Tips", fontWeight = FontWeight.Bold)
-            state.tips.forEach { tip ->
-                Text("• $tip")
+                Text("Tips", fontWeight = FontWeight.Bold)
+                state.tips.forEach { tip ->
+                    Text("• $tip")
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Button(
+                    onClick = {
+                        Toast.makeText(context, "AR Screen Coming Soon", Toast.LENGTH_SHORT).show()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Start AR Drill")
+                }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Button(
-                onClick = {
-                    Toast.makeText(context, "AR Screen Coming Soon", Toast.LENGTH_SHORT).show()
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Start AR Drill")
+            if (state.isLoading) {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(MaterialTheme.colorScheme.background.copy(alpha = 0.3f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
             }
         }
     }
 }
+
 
 @Preview
 @Composable

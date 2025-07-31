@@ -30,10 +30,14 @@ class DrillListViewModel(
 
     private fun getDrillDetails(){
         viewModelScope.launch {
+            _state.value = _state.value.copy(
+                isLoading = true
+            )
             val drillList = drillUseCaseWrapper.getAllDrillList()
             _state.update {
                 it.copy(
-                    drillList = drillList
+                    drillList = drillList,
+                    isLoading = false
                 )
             }
         }

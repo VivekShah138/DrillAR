@@ -1,5 +1,7 @@
 package com.example.drillar.presentation.DrillListFeature.components
 
+import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -12,6 +14,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -25,7 +28,7 @@ import com.example.drillar.R
 @Composable
 fun DrillListRoot(
     viewModel: DrillListViewModel = koinViewModel(),
-    navigateToDetailedScreen: () -> Unit,
+    navigateToDetailedScreen: (id: Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -36,30 +39,71 @@ fun DrillListRoot(
     )
 }
 
+//@Composable
+//fun DrillListScreen(
+//    state: DrillListStates,
+//    onEvent: (DrillListEvents) -> Unit,
+//    navigateToDetailedScreen: (id: Int) -> Unit,
+//) {
+//    Scaffold(
+//        topBar = {
+//            AppTopBar(
+//                title = "Select a Drill"
+//            )
+//        }
+//    ) { padding ->
+//        LazyColumn(contentPadding = padding) {
+//            items(state.drillList) { drill ->
+//                DrillCard(
+//                    drill = drill,
+//                    onClick = {
+//                        Log.d("DrillListScreen", "Clicked to navigate")
+//                        navigateToDetailedScreen(drill.id)
+//                    }
+//                )
+//            }
+//        }
+//    }
+//
+//}
+
 @Composable
 fun DrillListScreen(
     state: DrillListStates,
     onEvent: (DrillListEvents) -> Unit,
-    navigateToDetailedScreen: () -> Unit,
+    navigateToDetailedScreen: (id: Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
-            AppTopBar(
-                title = "Select a Drill"
-            )
+            AppTopBar(title = "Select a Drill")
         }
     ) { padding ->
-        LazyColumn(contentPadding = padding) {
-            items(state.drillList) { drill ->
-                DrillCard(
-                    drill = drill,
-                    onClick = navigateToDetailedScreen
-                )
+        Box(modifier = Modifier.padding(padding)) {
+            LazyColumn {
+                items(state.drillList) { drill ->
+                    DrillCard(
+                        drill = drill,
+                        onClick = {
+                            Log.d("DrillListScreen", "Clicked to navigate")
+                            navigateToDetailedScreen(drill.id)
+                        }
+                    )
+                }
+            }
+
+            if (state.isLoading) {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize(),
+                    contentAlignment = androidx.compose.ui.Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
             }
         }
     }
-
 }
+
 
 @Preview
 @Composable

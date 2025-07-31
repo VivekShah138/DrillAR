@@ -29,7 +29,10 @@ fun DrillCard(
     Row(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { 
+                onClick()
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
