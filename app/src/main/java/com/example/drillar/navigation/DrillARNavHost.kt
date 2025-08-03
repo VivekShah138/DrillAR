@@ -23,5 +23,9 @@ fun DrillARNavHost(
         drillDetailsGraph(
             navController = navController
         )
+
+        drillARGraph(
+            navController = navController
+        )
     }
 }

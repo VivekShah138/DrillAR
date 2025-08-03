@@ -6,4 +6,5 @@ data class DrillDetailsStates(
     val imageResId: Int = 0,
     val tips : List<String> = emptyList(),
     val isLoading: Boolean = false,
+    val drillId: Int? = null
 )

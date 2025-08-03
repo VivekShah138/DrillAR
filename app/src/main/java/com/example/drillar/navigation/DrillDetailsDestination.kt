@@ -12,6 +12,9 @@ fun NavGraphBuilder.drillDetailsGraph(
         DrillDetailsRoot(
             navigateBackToDrillList = {
                 navController.popBackStack()
+            },
+            navigateToDrillARScreen = {id ->
+                navController.navigate(Screens.DrillARScreen(drillId = id))
             }
         )
     }

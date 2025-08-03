@@ -50,7 +50,8 @@ class DrillDetailsViewModel(
                     description = drillDetail.description,
                     imageResId = drillDetail.imageResId,
                     tips = drillDetail.tips,
-                    isLoading = false
+                    isLoading = false,
+                    drillId = id
                 )
             }
         }

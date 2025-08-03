@@ -35,85 +35,24 @@ import com.example.drillar.presentation.core_components.AppTopBar
 fun DrillDetailsRoot(
     viewModel: DrillDetailsViewModel = koinViewModel(),
     navigateBackToDrillList: () -> Unit,
+    navigateToDrillARScreen: (id: Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     DrillDetailsScreen(
         state = state,
         onEvent = viewModel::onEvent,
-        navigateBackToDrillList = navigateBackToDrillList
+        navigateBackToDrillList = navigateBackToDrillList,
+        navigateToDrillARScreen = navigateToDrillARScreen
     )
 }
-
-//@Composable
-//fun DrillDetailsScreen(
-//    state: DrillDetailsStates,
-//    onEvent: (DrillDetailsEvents) -> Unit,
-//    navigateBackToDrillList: () -> Unit,
-//) {
-//
-//    val context = LocalContext.current
-//
-//    Scaffold(
-//        topBar = {
-//
-//            AppTopBar(
-//                title = state.name,
-//                showBackButton = true,
-//                onBackClick = navigateBackToDrillList
-//            )
-//
-//        }
-//    ) { padding ->
-//        Column(
-//            modifier = Modifier
-//                .padding(padding)
-//                .padding(16.dp)
-//                .fillMaxSize()
-//        ) {
-//            if (state.imageResId != 0) {
-//                Image(
-//                    painter = painterResource(id = state.imageResId),
-//                    contentDescription = state.name,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .height(200.dp)
-//                        .clip(RoundedCornerShape(8.dp)),
-//                    contentScale = ContentScale.Crop
-//                )
-//            }
-//
-//            Spacer(modifier = Modifier.height(16.dp))
-//
-//            Text("Description", fontWeight = FontWeight.Bold)
-//            Text(state.description)
-//
-//            Spacer(modifier = Modifier.height(12.dp))
-//
-//            Text("Tips", fontWeight = FontWeight.Bold)
-//            state.tips.forEach { tip ->
-//                Text("• $tip")
-//            }
-//
-//            Spacer(modifier = Modifier.height(24.dp))
-//
-//            Button(
-//                onClick = {
-//                    Toast.makeText(context, "AR Screen Coming Soon", Toast.LENGTH_SHORT).show()
-//                },
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Text("Start AR Drill")
-//            }
-//        }
-//    }
-//}
 
 @Composable
 fun DrillDetailsScreen(
     state: DrillDetailsStates,
     onEvent: (DrillDetailsEvents) -> Unit,
     navigateBackToDrillList: () -> Unit,
+    navigateToDrillARScreen: (id: Int) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -164,6 +103,7 @@ fun DrillDetailsScreen(
                 Button(
                     onClick = {
                         Toast.makeText(context, "AR Screen Coming Soon", Toast.LENGTH_SHORT).show()
+                        navigateToDrillARScreen(state.drillId ?: 0)
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -193,7 +133,8 @@ private fun Preview() {
         DrillDetailsScreen(
             state = DrillDetailsStates(),
             onEvent = {},
-            navigateBackToDrillList = {}
+            navigateBackToDrillList = {},
+            navigateToDrillARScreen = {}
         )
     }
 }

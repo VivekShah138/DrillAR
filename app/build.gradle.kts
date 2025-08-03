@@ -90,6 +90,9 @@ dependencies {
     // KSP dependency for Room compiler
     ksp(libs.androidx.room.compiler)
 
+    implementation("io.github.sceneview:sceneview:1.3.0")
+    implementation("io.github.sceneview:arsceneview:2.3.0")
+
 
 
 //    // ARCore
